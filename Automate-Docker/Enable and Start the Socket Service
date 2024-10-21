@@ -1,0 +1,2 @@
+sudo systemctl enable docker-bastion.socket
+sudo systemctl start docker-bastion.socket
