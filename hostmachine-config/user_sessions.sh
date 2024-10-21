@@ -1,5 +1,3 @@
-vi /etc/profile
-
 #!/bin/bash
 
 # This script is added to /etc/profile to record all commands run by users
@@ -22,4 +20,9 @@ if [[ -n "$PS1" && "$TERM" != "dumb" ]]; then
 
     # Start recording the user's commands and log the session quietly
     /usr/bin/script -q -f "$LOG_FILE"
+
+    # Forward the log to an OpenSearch host
+    OPENSEARCH_HOST="http://opensearch.example.com:9200"
+    INDEX_NAME="user_sessions"
+    curl -X POST "$OPENSEARCH_HOST/$INDEX_NAME/_doc" -H "Content-Type: application/json" -d @"$LOG_FILE" &>/dev/null &
 fi
