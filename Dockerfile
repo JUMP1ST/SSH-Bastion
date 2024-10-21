@@ -18,6 +18,10 @@ COPY custom-ca-certificates/ /usr/local/share/ca-certificates/
 # Update CA certificates to include custom ones
 RUN update-ca-certificates
 
+# Copy user session logging script to be executed during login
+COPY hostmachine-config/user_sessions.sh /etc/profile.d/user_sessions.sh
+RUN chmod +x /etc/profile.d/user_sessions.sh
+
 # Copy rsyslog configuration files
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY ldap.conf /etc/ldap/ldap.conf
