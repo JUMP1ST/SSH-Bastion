@@ -1,0 +1,11 @@
+[Unit]
+Description=Ephemeral SSH Bastion %I
+After=network.target
+
+[Service]
+ExecStartPre=-/usr/bin/docker rm -f bastion-%I
+ExecStart=/usr/bin/docker run --rm --name bastion-%I -p %I:22 stateless-bastion
+ExecStop=/usr/bin/docker stop bastion-%I
+
+[Install]
+WantedBy=multi-user.target
