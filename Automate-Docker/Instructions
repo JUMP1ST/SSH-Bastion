@@ -1,5 +1,5 @@
 How to Automatically Spin Up a New Ephemeral Bastion
-To automate the process of creating a new bastion on-demand, you can use tools such as Docker, Terraform, or Ansible. Below are two methods:
+To automate the process of creating a new bastion on-demand, you can use Docker:
 
 Option 1: Automate with Docker and Systemd Socket Activation
 This method spins up a Docker container-based bastion server only when requested by a user login attempt.
