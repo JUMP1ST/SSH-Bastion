@@ -5,43 +5,43 @@ Option 1: Automate with Docker and Systemd Socket Activation
 This method spins up a Docker container-based bastion server only when requested by a user login attempt.
 
 Create a Docker Systemd Service on the host:
-bash
-Copy code
-sudo nano /etc/systemd/system/docker-bastion.socket
+
+# sudo vi /etc/systemd/system/docker-bastion.socket
+
+
 docker-bastion.socket:
+#ini
+#[Socket]
+#ListenStream=2222
+#Accept=yes
 
-ini
-Copy code
-[Socket]
-ListenStream=2222
-Accept=yes
+#[Install]
+#WantedBy=sockets.target
 
-[Install]
-WantedBy=sockets.target
 Create the Service to Launch the Bastion:
-bash
-Copy code
-sudo nano /etc/systemd/system/docker-bastion@.service
-docker-bastion@.service:
 
+sudo vi /etc/systemd/system/docker-bastion@.service
+
+docker-bastion@.service:
 ini
-Copy code
 [Unit]
-Description=Ephemeral SSH Bastion %I
-After=network.target
+#Description=Ephemeral SSH Bastion %I
+#After=network.target
 
 [Service]
-ExecStartPre=-/usr/bin/docker rm -f bastion-%I
-ExecStart=/usr/bin/docker run --rm --name bastion-%I -p %I:22 stateless-bastion
-ExecStop=/usr/bin/docker stop bastion-%I
+#ExecStartPre=-/usr/bin/docker rm -f bastion-%I
+#ExecStart=/usr/bin/docker run --rm --name bastion-%I -p %I:22 stateless-bastion
+#ExecStop=/usr/bin/docker stop bastion-%I
 
 [Install]
-WantedBy=multi-user.target
+#WantedBy=multi-user.target
+
+
 Enable and Start the Socket Service:
-bash
-Copy code
-sudo systemctl enable docker-bastion.socket
-sudo systemctl start docker-bastion.socket
+
+#sudo systemctl enable docker-bastion.socket
+#sudo systemctl start docker-bastion.socket
+
 With this setup, the bastion container will start automatically when a user tries to SSH on port 2222. It will terminate once the session ends, ensuring a fresh environment every time.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
