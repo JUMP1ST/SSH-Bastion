@@ -1,3 +1,5 @@
  Update /etc/rsyslog.conf to make sure SSH logs are recorded:
 
-auth.*,authpriv.* /var/log/ssh.log
+Match User *
+    ForceCommand /usr/local/bin/log-ssh-session.sh
+
