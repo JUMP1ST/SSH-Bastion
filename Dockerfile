@@ -8,15 +8,21 @@ RUN apt-get update && apt-get install -y \
     openssh-server libpam-ldapd nscd rsyslog auditd ca-certificates && \
     update-ca-certificates && \
     mkdir /var/run/sshd && \
-    echo "PermitRootLogin no" >> /etc/ssh/sshd_config && \
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
     echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config && \
-    echo "UsePAM yes" >> /etc/ssh/sshd_config
+    echo "UsePAM yes" >> /etc/ssh/sshd_config && \
+    echo "AllowUsers admin mscott" >> /etc/ssh/sshd_config  # Allow specific users
 
 # Copy custom CA certificates into the container (optional)
 COPY custom-ca-certificates/ /usr/local/share/ca-certificates/
 
 # Update CA certificates to include custom ones
 RUN update-ca-certificates
+
+# Add a local admin account with password authentication
+RUN useradd -m -s /bin/bash admin && \
+echo "admin:password123" | chpasswd && \
+usermod -aG sudo admin  # Add admin to sudo group
 
 # Copy user session logging script to be executed during login
 COPY hostmachine-config/user_sessions.sh /etc/profile.d/user_sessions.sh
