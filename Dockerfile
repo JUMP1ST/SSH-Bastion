@@ -24,11 +24,11 @@ RUN useradd -m -s /bin/bash admin && \
 echo "admin:password123" | chpasswd && \
 usermod -aG sudo admin  # Add admin to sudo group
 
-# Copy user session logging script to be executed during login
+# Copy user session logging script to be executed during login (this expects the files are in the local Dir)
 COPY hostmachine-config/user_sessions.sh /etc/profile.d/user_sessions.sh
 RUN chmod +x /etc/profile.d/user_sessions.sh
 
-# Copy rsyslog configuration files
+# Copy rsyslog configuration files (this expects the files are in the local Dir)
 COPY rsyslog.conf /etc/rsyslog.conf
 COPY ldap.conf /etc/ldap/ldap.conf
 COPY nslcd.conf /etc/nslcd.conf
