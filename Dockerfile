@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
     echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config && \
     echo "UsePAM yes" >> /etc/ssh/sshd_config && \
-    echo "AllowUsers admin mscott" >> /etc/ssh/sshd_config  # Allow specific users
+    echo "AllowUsers admin test" >> /etc/ssh/sshd_config  # Allow specific users
 
 # Copy custom CA certificates into the container (optional)
 COPY custom-ca-certificates/ /usr/local/share/ca-certificates/
